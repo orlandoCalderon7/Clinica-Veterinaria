@@ -9,7 +9,7 @@ Este proyecto fue generado por [Angular CLI](https://github.com/angular/angular-
 ![Material Icons](https://img.shields.io/badge/Material_Icons-Round-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=for-the-badge)
 
-> Aplicación web de gestión clínica veterinaria desarrollada con **Angular 19**,
+> Aplicación web de gestión clínica veterinaria desarrollada con **Angular 17**,
 > arquitectura modular por features, servicios reactivos con RxJS y UI construida
 > íntegramente con **Material Icons Round** y **SCSS** personalizado.
 

@@ -88,98 +88,6 @@ Ejecuta `ng e2e` para realizar las pruebas de extremo a extremo en la plataforma
 
 Para obtener más ayuda sobre Angular CLI, utilice `ng help` o consulte la página [Descripción general y referencia de comandos de Angular CLI](https://angular.io/cli).
 
-## Estructura de Carpetas
-
-src/
-
-├── app/
-
-│   ├── core/
-
-│   │   └── services/
-
-│   │       └── ui.service.ts           # Modal global, sidebar, eventos UI
-
-│   │
-
-│   ├── features/
-
-│   │   ├── citas/
-
-│   │   │   ├── models/
-
-│   │   │   │   └── cita.model.ts
-
-│   │   │   ├── services/
-
-│   │   │   │   └── cita.service.ts
-
-│   │   │   ├── citas.component.ts
-
-│   │   │   ├── citas.component.html
-
-│   │   │   └── citas.component.scss
-
-│   │   │
-
-│   │   ├── mascotas/
-
-│   │   │   ├── models/
-
-│   │   │   │   └── mascota.model.ts
-
-│   │   │   ├── services/
-
-│   │   │   │   └── mascota.service.ts
-
-│   │   │   ├── registro/
-
-│   │   │   │   ├── registro.component.ts
-
-│   │   │   │   ├── registro.component.html
-
-│   │   │   │   └── registro.component.scss
-
-│   │   │   └── lista/
-
-│   │   │       ├── lista.component.ts
-
-│   │   │       ├── lista.component.html
-
-│   │   │       └── lista.component.scss
-
-│   │   │
-
-│   │   └── duenos/
-
-│   │       ├── models/
-
-│   │       │   └── dueno.model.ts
-
-│   │       └── services/
-
-│   │           └── dueno.service.ts
-
-│   │
-
-│   ├── shared/
-
-│   │   └── (componentes reutilizables futuros)
-
-│   │
-
-│   ├── app.module.ts
-
-│   ├── app.component.ts
-
-│   └── app-routing.module.ts
-
-│
-
-├── assets/
-
-└── index.html
-
 
 ## Instalación y Ejecución
 
@@ -192,7 +100,7 @@ Requisitos previos
 npm install -g @angular/cli
 
 **Clonar Repositorio**
-git clone https://github.com/tu-usuario/vetclinic.git
+git clone https://github.com/orlandoCalderon7/Clinica-Veterinaria
 
 Instalar dependencias **npm install**
 

@@ -91,49 +91,93 @@ Para obtener más ayuda sobre Angular CLI, utilice `ng help` o consulte la pági
 ## Estructura de Carpetas
 
 src/
+
 ├── app/
+
 │   ├── core/
+
 │   │   └── services/
+
 │   │       └── ui.service.ts           # Modal global, sidebar, eventos UI
+
 │   │
+
 │   ├── features/
+
 │   │   ├── citas/
+
 │   │   │   ├── models/
+
 │   │   │   │   └── cita.model.ts
+
 │   │   │   ├── services/
+
 │   │   │   │   └── cita.service.ts
+
 │   │   │   ├── citas.component.ts
+
 │   │   │   ├── citas.component.html
+
 │   │   │   └── citas.component.scss
+
 │   │   │
+
 │   │   ├── mascotas/
+
 │   │   │   ├── models/
+
 │   │   │   │   └── mascota.model.ts
+
 │   │   │   ├── services/
+
 │   │   │   │   └── mascota.service.ts
+
 │   │   │   ├── registro/
+
 │   │   │   │   ├── registro.component.ts
+
 │   │   │   │   ├── registro.component.html
+
 │   │   │   │   └── registro.component.scss
+
 │   │   │   └── lista/
+
 │   │   │       ├── lista.component.ts
+
 │   │   │       ├── lista.component.html
+
 │   │   │       └── lista.component.scss
+
 │   │   │
+
 │   │   └── duenos/
+
 │   │       ├── models/
+
 │   │       │   └── dueno.model.ts
+
 │   │       └── services/
+
 │   │           └── dueno.service.ts
+
 │   │
+
 │   ├── shared/
+
 │   │   └── (componentes reutilizables futuros)
+
 │   │
+
 │   ├── app.module.ts
+
 │   ├── app.component.ts
+
 │   └── app-routing.module.ts
+
 │
+
 ├── assets/
+
 └── index.html
 
 
@@ -158,5 +202,7 @@ Ejecucuión de Desarrollo
 
 ## Grupo 3
 
-Desarrollado como sistema de gestión veterinaria con Angular 19, por alumnos del 4to ciclo de Gestioón de Sistemas de Información. Arquitectura, componentes, servicios y UI diseñados de forma incremental con enfoque en escalabilidad y consistencia visual.
+Desarrollado como sistema de gestión veterinaria con Angular 19, por alumnos del 4to ciclo de Gestión de Sistemas de Información - Zegel en Interfases 3.
+
+Con su arquitectura, componentes, servicios y UI diseñados de forma incremental con enfoque en escalabilidad y consistencia visual.
 

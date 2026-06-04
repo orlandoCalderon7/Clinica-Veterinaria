@@ -30,7 +30,7 @@ Este proyecto fue generado por [Angular CLI](https://github.com/angular/angular-
 
 ## Descripción General
 
-**VetClinic** es un sistema de gestión para clínicas veterinarias que permite
+Es un sistema de gestión para clínicas veterinarias que permite
 administrar pacientes (mascotas), sus dueños, y la agenda de citas médicas.
 
 La aplicación fue diseñada con un enfoque **modular y escalable**, separando

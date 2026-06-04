@@ -1,0 +1,206 @@
+<!-- src/app/features/duenos/duenos.component.html -->
+<div class="duenos-page">
+
+  <!-- ── Header ──────────────────────────────── -->
+  <div class="page-header">
+    <div class="header-info">
+      <h1>
+        <span class="material-icons-round">people</span>
+        Registro de Dueños
+      </h1>
+      <p>Gestiona los propietarios de las mascotas de la clínica.</p>
+    </div>
+    <button class="btn-primary" (click)="abrirModalNuevo()">
+      <span class="material-icons-round">person_add</span>
+      Nuevo Dueño
+    </button>
+  </div>
+
+  <!-- ── Buscador ─────────────────────────────── -->
+  <div class="search-bar">
+    <span class="material-icons-round">search</span>
+    <input
+      type="text"
+      placeholder="Buscar por nombre, DNI o teléfono..."
+      [(ngModel)]="terminoBusqueda"
+      (input)="buscar()">
+    <button class="btn-clear" *ngIf="terminoBusqueda" (click)="limpiarBusqueda()">
+      <span class="material-icons-round">close</span>
+    </button>
+  </div>
+
+  <!-- ── Contador ─────────────────────────────── -->
+  <p class="contador">
+    {{ duenosFiltrados.length }} dueño{{ duenosFiltrados.length !== 1 ? 's' : '' }} encontrado{{ duenosFiltrados.length !== 1 ? 's' : '' }}
+  </p>
+
+  <!-- ── Lista ────────────────────────────────── -->
+  <div class="duenos-lista">
+
+    <div class="dueno-card"
+         *ngFor="let d of duenosFiltrados"
+         [class.expandido]="duenoDetalle?.id === d.id">
+
+      <!-- Fila principal -->
+      <div class="card-main" (click)="verDetalle(d)">
+        <div class="avatar">{{ iniciales(d) }}</div>
+        <div class="card-data">
+          <h3>{{ d.nombre }} {{ d.apellidos }}</h3>
+          <span class="dni">
+            <span class="material-icons-round">badge</span>
+            DNI: {{ d.dni }}
+          </span>
+        </div>
+        <div class="card-contacto">
+          <span class="telefono">
+            <span class="material-icons-round">phone</span>
+            {{ d.telefono }}
+          </span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-icon edit"
+                  (click)="$event.stopPropagation(); abrirModalEditar(d)"
+                  title="Editar">
+            <span class="material-icons-round">edit</span>
+          </button>
+          <button class="btn-icon delete"
+                  (click)="$event.stopPropagation(); eliminarDueno(d.id)"
+                  title="Eliminar">
+            <span class="material-icons-round">delete</span>
+          </button>
+          <span class="material-icons-round chevron">
+            {{ duenoDetalle?.id === d.id ? 'expand_less' : 'expand_more' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Detalle expandible -->
+      <div class="card-detalle" *ngIf="duenoDetalle?.id === d.id">
+        <div class="detalle-item" *ngIf="d.direccion">
+          <span class="material-icons-round">location_on</span>
+          <span>{{ d.direccion }}</span>
+        </div>
+        <div class="detalle-item" *ngIf="d.email">
+          <span class="material-icons-round">email</span>
+          <span>{{ d.email }}</span>
+        </div>
+        <div class="detalle-item sin-datos"
+             *ngIf="!d.direccion && !d.email">
+          <span class="material-icons-round">info</span>
+          <span>Sin datos adicionales registrados.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="duenosFiltrados.length === 0">
+      <span class="material-icons-round">person_search</span>
+      <p>No se encontraron dueños.</p>
+      <button class="btn-primary" (click)="abrirModalNuevo()">
+        Registrar primer dueño
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══ MODAL ════════════════════════════════ -->
+  <div class="modal-overlay" *ngIf="modalAbierto" (click)="cerrarModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2>
+          <span class="material-icons-round">
+            {{ modoEdicion ? 'edit' : 'person_add' }}
+          </span>
+          {{ modoEdicion ? 'Editar Dueño' : 'Nuevo Dueño' }}
+        </h2>
+        <button class="btn-close" (click)="cerrarModal()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="formDueno"
+            (ngSubmit)="guardarDueno()"
+            class="modal-form">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre <span class="req">*</span></label>
+            <input formControlName="nombre"
+                   placeholder="Ej. Juan"
+                   [class.error]="isInvalid('nombre')">
+            <span class="error-msg" *ngIf="isInvalid('nombre')">
+              Nombre requerido (mín. 2 caracteres)
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Apellidos <span class="req">*</span></label>
+            <input formControlName="apellidos"
+                   placeholder="Ej. Pérez García"
+                   [class.error]="isInvalid('apellidos')">
+            <span class="error-msg" *ngIf="isInvalid('apellidos')">
+              Apellidos requeridos
+            </span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>DNI / Documento <span class="req">*</span></label>
+            <input formControlName="dni"
+                   placeholder="Ej. 12345678"
+                   [class.error]="isInvalid('dni')">
+            <span class="error-msg" *ngIf="isInvalid('dni')">
+              DNI requerido (8-12 caracteres)
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Teléfono <span class="req">*</span></label>
+            <div class="input-icon">
+              <span class="material-icons-round">phone</span>
+              <input formControlName="telefono"
+                     placeholder="+51 987 654 321"
+                     [class.error]="isInvalid('telefono')">
+            </div>
+            <span class="error-msg" *ngIf="isInvalid('telefono')">
+              Teléfono requerido
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label>Dirección</label>
+          <input formControlName="direccion"
+                 placeholder="Ej. Av. Los Pinos 123, Lima">
+        </div>
+
+        <div class="form-group full">
+          <label>Correo electrónico</label>
+          <div class="input-icon">
+            <span class="material-icons-round">email</span>
+            <input formControlName="email"
+                   type="email"
+                   placeholder="Ej. juan@email.com"
+                   [class.error]="isInvalid('email')">
+          </div>
+          <span class="error-msg" *ngIf="isInvalid('email')">
+            Correo no válido
+          </span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="cerrarModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="guardando">
+            <span class="material-icons-round">save</span>
+            {{ guardando ? 'Guardando...' : (modoEdicion ? 'Actualizar' : 'Registrar Dueño') }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

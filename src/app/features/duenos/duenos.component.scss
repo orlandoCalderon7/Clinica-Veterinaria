@@ -1,0 +1,367 @@
+// src/app/features/duenos/duenos.component.scss
+
+.duenos-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+// ── Header ────────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+
+    .material-icons-round { color: var(--primary); font-size: 1.8rem; }
+  }
+
+  p { color: var(--text-muted); font-size: 0.88rem; margin-top: 4px; }
+}
+
+// ── Buscador ──────────────────────────────────────
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  max-width: 500px;
+
+  .material-icons-round { color: var(--text-muted); font-size: 1.2rem; }
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    background: transparent;
+  }
+
+  .btn-clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    &:hover { color: var(--primary); }
+  }
+}
+
+.contador {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+// ── Lista ─────────────────────────────────────────
+.duenos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dueno-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+
+  &:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  &.expandido { border-color: var(--primary); }
+
+  .card-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .card-data {
+    flex: 1;
+    h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .dni {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      .material-icons-round { font-size: 0.9rem; }
+    }
+  }
+
+  .card-contacto {
+    .telefono {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--primary);
+      font-weight: 600;
+      .material-icons-round { font-size: 1rem; }
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .chevron {
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      margin-left: 4px;
+    }
+  }
+
+  .card-detalle {
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    background: var(--bg);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .detalle-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+
+      .material-icons-round { font-size: 1rem; color: var(--primary); }
+
+      &.sin-datos .material-icons-round { color: var(--text-muted); }
+    }
+  }
+}
+
+// ── Botones icono ─────────────────────────────────
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+
+  .material-icons-round { font-size: 1.1rem; }
+
+  &.edit {
+    color: var(--primary);
+    &:hover { background: var(--primary-light); }
+  }
+
+  &.delete {
+    color: #e53935;
+    &:hover { background: #fdecea; }
+  }
+}
+
+// ── Empty state ───────────────────────────────────
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+
+  .material-icons-round { font-size: 3rem; color: var(--border); display: block; margin-bottom: 1rem; }
+  p { margin-bottom: 1rem; }
+}
+
+// ── Botones globales ──────────────────────────────
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover { background: var(--primary-dark); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.btn-secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover { background: var(--border); }
+}
+
+// ── Modal ─────────────────────────────────────────
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-box {
+  background: var(--white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    .material-icons-round { color: var(--primary); }
+  }
+
+  .btn-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 4px;
+    &:hover { background: var(--bg); color: var(--text); }
+  }
+}
+
+.modal-form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// ── Formulario ────────────────────────────────────
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 480px) { grid-template-columns: 1fr; }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    .req { color: var(--primary); }
+  }
+
+  input, select, textarea {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--white);
+
+    &:focus { border-color: var(--primary); }
+    &.error { border-color: #e53935; }
+  }
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 0 14px;
+  background: var(--white);
+  transition: border-color 0.2s;
+
+  &:focus-within { border-color: var(--primary); }
+
+  .material-icons-round { color: var(--text-muted); font-size: 1.1rem; }
+
+  input {
+    flex: 1;
+    border: none;
+    padding: 10px 0;
+    outline: none;
+    font-size: 0.9rem;
+    background: transparent;
+    &.error { border: none; }
+  }
+}
+
+.error-msg {
+  font-size: 0.75rem;
+  color: #e53935;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,259 @@
+// src/app/features/historial/historial-form/historial-form.component.scss
+
+// ── Variables de color Huellitas ──────────────────────
+$rosa-fuerte:   #c8193c;
+$rosa-medio:    #e8325a;
+$rosa-suave:    #ffd6de;
+$morado-oscuro: #1e1e3c;
+$morado-medio:  #2d2d5e;
+$morado-suave:  #ebebf8;
+$blanco:        #ffffff;
+$gris-texto:    #4a4a6a;
+$gris-borde:    #e0e0f0;
+$sombra:        rgba(30, 30, 60, 0.10);
+
+// ── Contenedor principal ──────────────────────────────
+.historial-form {
+  padding: 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+// ── Header del formulario ─────────────────────────────
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid $gris-borde;
+
+  .material-icons-round {
+    font-size: 2rem;
+    color: $rosa-fuerte;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: $morado-oscuro;
+    margin: 0;
+  }
+}
+
+// ── Tarjeta del formulario ────────────────────────────
+form {
+  background: $blanco;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px $sombra;
+  border: 1px solid $gris-borde;
+}
+
+// ── Grid de campos ────────────────────────────────────
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+
+  // Campos que ocupan todo el ancho
+  .full {
+    grid-column: 1 / -1;
+  }
+}
+
+// ── Grupo de campo ────────────────────────────────────
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $morado-medio;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  input,
+  textarea {
+    padding: 11px 14px;
+    border: 2px solid $gris-borde;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: $gris-texto;
+    background: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+    font-family: 'Segoe UI', sans-serif;
+    resize: vertical;
+
+    &::placeholder { color: #b0b0c8; }
+
+    &:focus {
+      border-color: $rosa-fuerte;
+      background: $blanco;
+      box-shadow: 0 0 0 3px rgba(200, 25, 60, 0.10);
+    }
+
+    // Estado inválido tocado
+    &.ng-invalid.ng-touched {
+      border-color: $rosa-medio;
+      background: #fff8f9;
+    }
+
+    // Estado válido
+    &.ng-valid.ng-touched {
+      border-color: #4caf82;
+    }
+  }
+
+  textarea {
+    min-height: 90px;
+  }
+
+  // Mensaje de error
+  .error {
+    font-size: 0.78rem;
+    color: $rosa-fuerte;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &::before {
+      content: '⚠';
+      font-size: 0.75rem;
+    }
+  }
+}
+
+// ── Botones de acción ─────────────────────────────────
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid $gris-borde;
+  flex-wrap: wrap;
+
+  .btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 26px;
+    border-radius: 999px;
+    border: 2px solid $gris-borde;
+    background: transparent;
+    color: $gris-texto;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+
+    .material-icons-round { font-size: 1.1rem; }
+
+    &:hover {
+      background: $morado-suave;
+      border-color: $morado-medio;
+      color: $morado-medio;
+    }
+  }
+
+  .btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 28px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, $rosa-fuerte, $morado-medio);
+    color: $blanco;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(200, 25, 60, 0.30);
+    transition: opacity 0.2s, transform 0.2s;
+
+    .material-icons-round {
+      font-size: 1.1rem;
+      &.spin { animation: girar 1s linear infinite; }
+    }
+
+    &:hover:not(:disabled) {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// ── Agrega esto al FINAL de tu scss existente ──────────
+
+// Select con mismo estilo que inputs
+select {
+  padding: 11px 14px;
+  border: 2px solid $gris-borde;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: $gris-texto;
+  background: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: pointer;
+  appearance: none;
+  width: 100%;
+
+  &:focus {
+    border-color: $rosa-fuerte;
+    background: $blanco;
+    box-shadow: 0 0 0 3px rgba(200, 25, 60, 0.10);
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: $rosa-medio;
+    background: #fff8f9;
+  }
+}
+
+// Badge de autocompletado
+.badge-auto {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.70rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+  vertical-align: middle;
+  text-transform: none;
+  letter-spacing: 0;
+  animation: aparecer 0.3s ease;
+
+  &.vet {
+    background: #e8eaf6;
+    color: #3949ab;
+  }
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

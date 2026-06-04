@@ -1,0 +1,148 @@
+<!-- src/app/features/mascotas/mascota-list/mascota-list.component.html -->
+
+<div class="list-wrapper">
+
+  <!-- Encabezado -->
+  <div class="list-header">
+    <div class="header-left">
+      <span class="material-icons-round header-icon">pets</span>
+      <div>
+        <h1>Gestión de Mascotas</h1>
+        <p>Administra el registro de pacientes de la clínica</p>
+      </div>
+    </div>
+    <button class="btn-nueva" (click)="nueva()">
+      <span class="material-icons-round">add</span>
+      Nueva Mascota
+    </button>
+  </div>
+
+  <!-- Contador -->
+  <div class="registro-info" *ngIf="mascotas.length > 0">
+    <span></span>
+    <span>
+      <strong>{{ mascotas.length }}</strong>
+      mascota{{ mascotas.length !== 1 ? 's' : '' }}
+      registrada{{ mascotas.length !== 1 ? 's' : '' }}
+      <span class="storage-badge"></span>
+    </span>
+  </div>
+
+  <!-- Lista vacía -->
+  <div class="empty-state" *ngIf="mascotas.length === 0">
+    <span class="material-icons-round empty-icon">pets</span>
+    <p>No hay mascotas registradas aún.</p>
+    <button class="btn-nueva" (click)="nueva()">
+      <span class="material-icons-round">add</span>
+      Registrar primera mascota
+    </button>
+  </div>
+
+  <!-- Cards -->
+  <div class="mascotas-grid" *ngIf="mascotas.length > 0">
+    <div class="mascota-card" *ngFor="let m of mascotas">
+
+      <!-- Top de la card -->
+      <div class="card-top">
+        <div class="avatar">
+          <!-- Icono según especie -->
+          <span class="material-icons-round avatar-icon">
+            {{ m.especie === 'perro' ? 'pets' :
+               m.especie === 'gato'  ? 'cats'  :
+               m.especie === 'ave'   ? 'flutter_dash'  : 'favorite' }}
+          </span>
+        </div>
+        <div class="card-info">
+          <h3>{{ m.nombre }}</h3>
+          <span class="badge">{{ m.especie }}</span>
+        </div>
+      </div>
+
+      <!-- Detalles -->
+      <div class="card-details">
+
+        <!-- Dueño -->
+        <div class="detail-row dueno-row">
+          <span class="detail-label">
+            <span class="material-icons-round">person</span>
+            Dueño
+          </span>
+          <span class="dueno-nombre">
+            {{ m.dueno ? (m.dueno.nombre + ' ' + m.dueno.apellidos) : '—' }}
+          </span>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="detail-row">
+          <span class="detail-label">
+            <span class="material-icons-round">phone</span>
+            Teléfono
+          </span>
+          <span>{{ m.dueno?.telefono || '—' }}</span>
+        </div>
+
+        <!-- Raza -->
+        <div class="detail-row">
+          <span class="detail-label">
+            <span class="material-icons-round">biotech</span>
+            Raza
+          </span>
+          <span>{{ m.raza || '—' }}</span>
+        </div>
+
+        <!-- Edad -->
+        <div class="detail-row">
+          <span class="detail-label">
+            <span class="material-icons-round">cake</span>
+            Edad
+          </span>
+          <span>{{ m.edad ? m.edad + ' año(s)' : '—' }}</span>
+        </div>
+
+        <!-- Peso -->
+        <div class="detail-row">
+          <span class="detail-label">
+            <span class="material-icons-round">monitor_weight</span>
+            Peso
+          </span>
+          <span>{{ m.peso ? m.peso + ' kg' : '—' }}</span>
+        </div>
+
+        <!-- Género -->
+        <div class="detail-row">
+          <span class="detail-label">
+            <span class="material-icons-round">transgender</span>
+            Género
+          </span>
+          <span>{{ m.genero === 'macho' ? 'Macho' : 'Hembra' }}</span>
+        </div>
+
+        <!-- Veterinario -->
+        
+        <div class="detail-row veterinario-row">
+          <span class="detail-label">
+            <span class="material-icons-round">medical_services</span>
+            Veterinario
+          </span>
+          <ng-container *ngIf="m.veterinario; else sinVet">
+            <span class="vet-nombre">{{ m.veterinario }}</span>
+          </ng-container>
+          <ng-template #sinVet>
+            <span class="sin-cita">Sin asignar</span>
+          </ng-template>
+        </div>  
+
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button class="btn-editar" (click)="editar(m.id!)">
+          <span class="material-icons-round">edit</span>
+          Editar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

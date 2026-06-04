@@ -1,0 +1,189 @@
+<div class="registro-wrapper">
+
+  <!-- Encabezado -->
+  <div class="page-header">
+    <div class="header-icon">
+      <span class="material-icons-round">pets</span>
+    </div>
+    <div>
+      <h1>{{ esEdicion ? 'Editar Mascota' : 'Registro de Ingreso' }}</h1>
+      <p>Complete la información para dar de alta un nuevo paciente.</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+
+    <!-- ── CARD: Datos de la Mascota ── -->
+    <div class="card">
+      <div class="card-title">
+        <span class="material-icons-round card-title-icon">pets</span>
+        <h2>Datos de la Mascota</h2>
+      </div>
+      <div class="divider"></div>
+
+      <div class="form-grid two-col">
+
+        <!-- Nombre -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">badge</span>
+            Nombre de la Mascota
+          </label>
+          <input formControlName="nombre"
+                 type="text"
+                 placeholder="Ej. Bruno"
+                 [class.invalid]="isInvalid('nombre')" />
+          <span class="error-hint" *ngIf="isInvalid('nombre')">
+            <span class="material-icons-round">error_outline</span>
+            Campo requerido
+          </span>
+        </div>
+
+        <!-- Especie -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">cruelty_free</span>
+            Especie
+          </label>
+          <div class="select-wrapper">
+            <select formControlName="especie"
+                    [class.invalid]="isInvalid('especie')">
+              <option value="" disabled>Seleccione especie</option>
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+              <option value="ave">Ave</option>
+              <option value="conejo">Conejo</option>
+              <option value="otro">Otro</option>
+            </select>
+            <span class="material-icons-round select-icon">expand_more</span>
+          </div>
+          <span class="error-hint" *ngIf="isInvalid('especie')">
+            <span class="material-icons-round">error_outline</span>
+            Seleccione una especie
+          </span>
+        </div>
+
+
+        <!-- Raza -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">category</span>
+            Raza
+          </label>
+          <input formControlName="raza"
+                 type="text"
+                 placeholder="Ej. Golden Retriever" />
+        </div>
+
+        <!-- Edad -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">cake</span>
+            Edad (Años)
+          </label>
+          <input formControlName="edad"
+                 type="number"
+                 placeholder="Ej. 3"
+                 min="0" />
+        </div>
+
+        <!-- Peso -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">monitor_weight</span>
+            Peso (kg)
+          </label>
+          <input formControlName="peso"
+                 type="number"
+                 placeholder="Ej. 28"
+                 min="0"
+                 step="0.1" />
+        </div>
+
+      </div>
+
+      <!-- Veterinario asignado -->
+      <div class="field-group">
+        <label>
+          <span class="material-icons-round field-icon">stethoscope</span>
+          Veterinario Asignado
+        </label>
+        <div class="select-wrapper">
+          <select formControlName="veterinario">
+            <option value="">Sin asignar</option>
+            <option *ngFor="let vet of veterinarios" [value]="vet">
+              {{ vet }}
+            </option>
+          </select>
+          <span class="material-icons-round select-icon">expand_more</span>
+        </div>
+      </div>
+
+      <!-- Dueño -->
+      <div class="field-group" [class.invalid]="isInvalid('duenoId')">
+        <label>
+          <span class="material-icons-round field-icon">person</span>
+          Dueño *
+        </label>
+        <div class="select-wrapper">
+          <select formControlName="duenoId"
+                  [class.invalid]="isInvalid('duenoId')">
+            <option [ngValue]="null" disabled>Seleccionar dueño...</option>
+            <option *ngFor="let d of duenos" [ngValue]="d.id">
+              {{ d.nombre }} {{ d.apellidos }} — {{ d.dni }}
+            </option>
+          </select>
+          <span class="material-icons-round select-icon">expand_more</span>
+        </div>
+        <span class="error-hint" *ngIf="isInvalid('duenoId')">
+          <span class="material-icons-round">error_outline</span>
+          Selecciona un dueño
+        </span>
+      </div>
+
+      <!-- Género -->
+      <div class="field-group">
+        <label>
+          <span class="material-icons-round field-icon">wc</span>
+          Género
+        </label>
+        <div class="genero-toggle">
+          <button type="button"
+                  class="genero-btn"
+                  [class.active]="form.get('genero')?.value === 'macho'"
+                  (click)="setGenero('macho')">
+            <span class="material-icons-round">male</span>
+            Macho
+          </button>
+          <button type="button"
+                  class="genero-btn"
+                  [class.active]="form.get('genero')?.value === 'hembra'"
+                  (click)="setGenero('hembra')">
+            <span class="material-icons-round">female</span>
+            Hembra
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Botones ── -->
+    <div class="action-row">
+      <button type="submit"
+              class="btn-guardar"
+              [disabled]="form.invalid">
+        <span class="material-icons-round">
+          {{ esEdicion ? 'save' : 'add_circle' }}
+        </span>
+        {{ esEdicion ? 'Actualizar' : 'Guardar Registro' }}
+      </button>
+      <button type="button"
+              class="btn-cancelar"
+              (click)="cancelar()">
+        <span class="material-icons-round">close</span>
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

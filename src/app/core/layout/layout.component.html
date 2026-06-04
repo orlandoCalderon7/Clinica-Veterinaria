@@ -1,0 +1,67 @@
+<!-- src/app/core/layout/layout.component.html -->
+<div class="app-shell">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+      <span class="material-icons-round brand-icon">pets</span>
+      <div>
+        <span class="brand-name">Veterinaria</span>
+        <span class="brand-sub">Huellitas</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let link of navLinks"
+         [routerLink]="link.path"
+         routerLinkActive="active"
+         class="nav-item">
+        <span class="material-icons-round nav-icon">{{ link.icon }}</span>
+        <span class="nav-label">{{ link.label }}</span>
+      </a>
+    </nav>
+
+    <!-- UNA SOLA VEZ — dentro del div.sidebar-footer -->
+    <div class="sidebar-footer">
+      <button class="btn-nueva-cita" (click)="nuevaCita()">
+        <span class="material-icons-round">add_circle</span>
+        <span>Nueva Cita</span>
+      </button>
+      <button class="btn-logout" (click)="cerrarSesion()">
+        <span class="material-icons-round">logout</span>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ===== CONTENIDO ===== -->
+  <div class="main-area">
+
+    <header class="topbar">
+      <h2 class="topbar-title">Veterinaria <span>Huellitas</span></h2>
+      <div class="topbar-search">
+        <span class="material-icons-round">search</span>
+        <input type="text" placeholder="Buscar paciente..." />
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn">
+          <span class="material-icons-round">notifications</span>
+        </button>
+        <div class="user-chip">
+          <div class="avatar">
+            <span class="material-icons-round">account_circle</span>
+          </div>
+          <span>{{ auth.getUsuario()?.nombre }}</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

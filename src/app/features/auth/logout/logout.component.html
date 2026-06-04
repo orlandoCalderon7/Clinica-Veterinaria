@@ -1,0 +1,32 @@
+<!-- src/app/features/auth/logout/logout.component.html -->
+<div class="logout-page">
+  <div class="logout-card">
+
+    <div class="check-icon">✅</div>
+    <h2>Sesión Finalizada</h2>
+    <p>
+      Hasta pronto, <strong>Dr. Ricardo Soria</strong>.
+      Tu sesión ha sido cerrada de forma segura para proteger
+      la integridad de los datos médicos.
+    </p>
+
+    <button class="btn-primary" (click)="volverLogin()">
+      Volver a Iniciar Sesión
+    </button>
+
+    <button class="btn-secondary" routerLink="/">
+       Ir al Sitio Principal
+    </button>
+
+  </div>
+
+  <footer class="logout-footer">
+    <span class="brand">Veterinaria Huellitas</span>
+    <div class="links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos de Uso</a>
+      <a href="#">Soporte Técnico</a>
+    </div>
+    <span>© 2024 Veterinaria Huellitas. Todos los derechos reservados.</span>
+  </footer>
+</div>

@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+// src/styles.scss
+:root {
+  --primary:       #C8193C;
+  --primary-dark:  #9E1230;
+  --primary-light: #fde8ec;
+  --sidebar-bg:    #ffffff;
+  --sidebar-width: 220px;
+  --bg:            #f5f6fa;
+  --text:          #1a1a2e;
+  --text-muted:    #6b7280;
+  --border:        #e5e7eb;
+  --white:         #ffffff;
+  --success:       #16a34a;
+  --warning:       #d97706;
+  --shadow:        0 2px 12px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a { text-decoration: none; color: inherit; }
+
+button { cursor: pointer; font-family: inherit; }
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 0.9rem;
+}

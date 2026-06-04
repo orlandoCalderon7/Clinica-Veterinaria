@@ -1,0 +1,109 @@
+<!-- src/app/features/auth/login/login.component.html -->
+
+<div class="login-wrapper">
+
+  <!-- ── IZQUIERDA: Formulario ── -->
+  <div class="login-panel">
+
+    <!-- Brand -->
+    <div class="brand">
+      <span class="material-icons-round brand-icon">pets</span>
+      <div>
+        <h1>Veterinaria<br><span>Huellitas</span></h1>
+      </div>
+    </div>
+
+    <!-- Bienvenida -->
+    <div class="welcome">
+      <h2>Bienvenido, Dr. Ricardo Soria</h2>
+      <p>Por favor, ingrese sus credenciales para acceder al panel clínico.</p>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="form" (ngSubmit)="iniciarSesion()">
+
+      <!-- Usuario -->
+      <div class="field-group">
+        <label>USUARIO</label>
+        <div class="input-wrapper">
+          <span class="material-icons-round input-icon">person</span>
+          <input formControlName="username" placeholder="usuario" />
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="field-group">
+        <div class="label-row">
+          <label>CONTRASEÑA</label>
+          <a href="#" class="forgot">¿Olvidó su contraseña?</a>
+        </div>
+        <div class="input-wrapper">
+          <span class="material-icons-round input-icon">lock</span>
+          <input
+            [type]="mostrarPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="••••••••" />
+          <button type="button" class="toggle-pass" (click)="togglePassword()">
+            <span class="material-icons-round">
+              {{ mostrarPassword ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recordar sesión -->
+      <div class="remember-row">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="recordar" />
+          <span>Mantener sesión iniciada</span>
+        </label>
+      </div>
+
+      <!-- Error -->
+      <div class="error-msg" *ngIf="errorMsg">
+        <span class="material-icons-round">warning</span>
+        {{ errorMsg }}
+      </div>
+
+      <!-- Botón submit -->
+      <button type="submit" class="btn-login" [disabled]="cargando">
+        <span *ngIf="!cargando" class="btn-content">
+          <span class="material-icons-round">login</span>
+          Iniciar Sesión
+        </span>
+        <span *ngIf="cargando" class="btn-content">
+          <span class="material-icons-round spin">sync</span>
+          Verificando...
+        </span>
+      </button>
+
+    </form>
+
+    <!-- Footer -->
+    <p class="footer-text">
+      © 2026 Zegel Grupo Educativo. <br>
+      Sistema de Gestión de la información <br>
+      Veterinaria V1.0
+    </p>
+
+  </div>
+
+  <!-- ── DERECHA: Imagen hero ── -->
+  <div class="login-image">
+    <img
+      src="assets/images/Veterinaria-hero.png"
+      alt="Veterinaria Huellitas"
+      class="hero-img"
+    />
+    <!-- Tarjeta flotante -->
+    <div class="quote-card">
+      <span class="material-icons-round quote-icon">pets</span>
+      <div>
+        <strong>Cuidado de Precisión</strong>
+        <p>"Transformando la utilidad médica en bienestar proactivo
+           para cada paciente que cruza nuestra puerta."</p>
+      </div>
+    </div>
+  </div>
+
+</div>

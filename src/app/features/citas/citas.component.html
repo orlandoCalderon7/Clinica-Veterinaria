@@ -1,0 +1,366 @@
+<!-- src/app/features/citas/citas.component.html -->
+<div class="agenda-wrapper">
+
+  <!-- ── Encabezado ── -->
+  <div class="agenda-header">
+    <div class="header-left">
+      <span class="header-icon"></span>
+      <div>
+        <h1>Agenda de Citas</h1>
+        <p>Gestiona el calendario de atenciones de la clínica</p>
+      </div>
+    </div>
+    <div class="vista-toggle">
+      <button [class.active]="vistaActiva==='mes'"    (click)="vistaActiva='mes'">Mes</button>
+      <button [class.active]="vistaActiva==='semana'" (click)="vistaActiva='semana'">Semana</button>
+      <button [class.active]="vistaActiva==='dia'"    (click)="vistaActiva='dia'">Día</button>
+    </div>
+  </div>
+
+  <!-- ── Cuerpo ── -->
+  <div class="agenda-body">
+
+    <!-- ══ CALENDARIO ══ -->
+    <div class="calendario-panel">
+      <div class="cal-nav">
+        <h2>{{ nombresMeses[mesActual.getMonth()] }} de {{ mesActual.getFullYear() }}</h2>
+        <div class="nav-btns">
+          <button (click)="mesAnterior()">‹</button>
+          <button (click)="mesSiguiente()">›</button>
+        </div>
+      </div>
+
+      <div class="cal-grid header-row">
+        <span *ngFor="let d of ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM']">{{ d }}</span>
+      </div>
+
+      <div class="cal-grid days-grid">
+        <div *ngFor="let dia of diasCalendario"
+             class="cal-day"
+             [class.empty]="!dia"
+             [class.hoy]="esHoy(dia)"
+             [class.seleccionado]="esSeleccionado(dia)"
+             [class.tiene-citas]="citasDelDia(dia).length > 0"
+             (click)="seleccionarDia(dia)">
+
+          <span class="num" *ngIf="dia">{{ dia.getDate() }}</span>
+
+          <ng-container *ngIf="dia">
+            <div class="cita-chip" *ngFor="let c of citasDelDia(dia).slice(0,2)">
+              {{ c.mascotaNombre }} · {{ c.hora }}
+            </div>
+            <div class="cita-chip mas" *ngIf="citasDelDia(dia).length > 2">
+              +{{ citasDelDia(dia).length - 2 }} más
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL LATERAL ══ -->
+    <div class="lateral-panel">
+
+      <!-- Fecha seleccionada -->
+      <div class="fecha-card">
+        <div class="fecha-top">
+          <span class="dia-nombre">{{ nombreDia(diaSeleccionado) }}</span>
+          <span class="dia-num">{{ diaSeleccionado.getDate() }}</span>
+          <span class="mes-nombre">{{ nombresMeses[diaSeleccionado.getMonth()].slice(0,3) }}</span>
+        </div>
+        <p>{{ citasHoy.length }} citas programadas hoy</p>
+      </div>
+
+      <!-- Próximas citas -->
+      <div class="proximas-section">
+        <div class="proximas-header">
+          <h3>Próximas citas</h3>
+          <span class="badge-ahora">AHORA</span>
+        </div>
+
+        <div class="proximas-list">
+          <div class="empty-citas" *ngIf="citasHoy.length === 0">
+            <span></span>
+            <p>Sin citas para este día</p>
+          </div>
+
+          <div class="cita-item"
+               *ngFor="let c of citasHoy; let first = first"
+               [class.primera]="first">
+            <div class="cita-hora">{{ c.hora }}</div>
+            <div class="cita-info">
+              <div class="cita-avatar">{{ avatarEspecie(c.mascotaRaza) }}</div>
+              <div class="cita-detalle">
+                <strong>{{ c.mascotaNombre }}</strong>
+                <span class="sub">{{ c.mascotaRaza }} · {{ c.mascotaEdad }} años</span>
+                <span class="motivo">{{ c.motivo }}</span>
+                <span class="vet">{{ c.veterinario }}
+                  <ng-container *ngIf="c.consultorio"> · {{ c.consultorio }}</ng-container>
+                </span>
+
+                <!-- Badge de estado -->
+                <span class="estado-badge"
+                      [class.confirmada]="c.estado === 'confirmada'"
+                      [class.pendiente]="c.estado === 'pendiente'">
+                  <span class="material-icons-round">
+                    {{ c.estado === 'confirmada' ? 'check_circle' : 'schedule' }}
+                  </span>
+                  {{ c.estado | titlecase }}
+                </span>
+
+                <!-- Botones de acción -->
+                <div class="cita-acciones">
+                  <button class="btn-editar-cita" (click)="abrirModalEdicion(c)">
+                    <span class="material-icons-round"></span>
+                    Editar
+                  </button>
+                  <button class="btn-cancelar-cita" (click)="cancelarCita(c.id)">
+                    <span class="material-icons-round"></span>
+                    Cancelar
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen semanal -->
+      <div class="resumen-card">
+        <p class="resumen-titulo">RESUMEN SEMANAL</p>
+        <div class="resumen-stats">
+          <div class="stat">
+            <span class="stat-num">{{ totalCitas }}</span>
+            <span class="stat-label">CITAS TOTALES</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">{{ totalVacunas }}</span>
+            <span class="stat-label">VACUNAS</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     MODAL — Nueva Cita / Editar Cita
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" *ngIf="modalAbierto" (click)="cerrarModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <!-- Header dinámico -->
+    <div class="modal-header">
+      <div class="modal-title">
+        <span class="material-icons-round modal-title-icon">
+          {{ modoEdicion ? 'edit_calendar' : 'event_note' }}
+        </span>
+        <h2>{{ modoEdicion ? 'Editar Cita' : 'Nueva Cita' }}</h2>
+      </div>
+      <button class="modal-close" (click)="cerrarModal()">
+        <span class="material-icons-round">close</span>
+      </button>
+    </div>
+
+    <form [formGroup]="formCita" (ngSubmit)="guardarCita()">
+
+      <!-- ── Sección: Paciente ── -->
+      <div class="modal-section-title">
+        <span class="material-icons-round section-icon">pets</span>
+        Datos del Paciente
+      </div>
+
+      <div class="modal-grid two-col">
+
+        <div class="field-group full-col">
+          <label>
+            <span class="material-icons-round field-icon">search</span>
+            Buscar mascota registrada
+          </label>
+          <div class="select-wrapper">
+            <select formControlName="mascotaId" (change)="onMascotaChange($event)">
+              <option [ngValue]="null">— Nueva mascota (ingresar manualmente) —</option>
+              <option *ngFor="let m of mascotas" [value]="m.id">
+                {{ m.nombre }} · {{ m.raza }} · {{ m.edad }} año(s)
+              </option>
+            </select>
+            <span class="material-icons-round select-icon">expand_more</span>
+          </div>
+        </div>
+
+        <!-- Nombre -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">badge</span>
+            Nombre de la mascota *
+          </label>
+          <input formControlName="mascotaNombre"
+                 type="text"
+                 placeholder="Ej. Bruno"
+                 [class.invalid]="isInvalid('mascotaNombre')"
+                 [readonly]="!!mascotaSeleccionada" />
+          <span class="error-hint" *ngIf="isInvalid('mascotaNombre')">
+            <span class="material-icons-round">error_outline</span> Requerido
+          </span>
+        </div>
+
+        <!-- Raza -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">category</span>
+            Raza
+          </label>
+          <input formControlName="mascotaRaza"
+                 type="text"
+                 placeholder="Ej. Golden Retriever"
+                 [readonly]="!!mascotaSeleccionada" />
+        </div>
+
+        <!-- Edad -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">cake</span>
+            Edad (años)
+          </label>
+          <input formControlName="mascotaEdad"
+                 type="number" min="0"
+                 placeholder="Ej. 3"
+                 [readonly]="!!mascotaSeleccionada" />
+        </div>
+
+        <!-- Motivo -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">medical_information</span>
+            Motivo *
+          </label>
+          <input formControlName="motivo"
+                 type="text"
+                 placeholder="Ej. Vacunación anual"
+                 [class.invalid]="isInvalid('motivo')" />
+          <span class="error-hint" *ngIf="isInvalid('motivo')">
+            <span class="material-icons-round">error_outline</span> Requerido
+          </span>
+        </div>
+
+      </div>
+
+      <!-- ── Sección: Cita ── -->
+      <div class="modal-section-title">
+        <span class="material-icons-round section-icon">calendar_month</span>
+        Datos de la Cita
+      </div>
+
+      <div class="modal-grid two-col">
+
+        <!-- Fecha -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">today</span>
+            Fecha *
+          </label>
+          <input formControlName="fecha"
+                 type="date"
+                 [class.invalid]="isInvalid('fecha') || fechaPasada" />
+          <span class="error-hint" *ngIf="isInvalid('fecha')">
+            <span class="material-icons-round">error_outline</span> Requerido
+          </span>
+        </div>
+
+        <!-- Hora -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">schedule</span>
+            Hora *
+          </label>
+          <input formControlName="hora"
+                 type="time"
+                 [class.invalid]="isInvalid('hora') || fechaPasada" />
+          <span class="error-hint" *ngIf="isInvalid('hora')">
+            <span class="material-icons-round">error_outline</span> Requerido
+          </span>
+        </div>
+
+        <!-- Aviso fecha pasada — ocupa las 2 columnas -->
+        <div class="field-group full-col error-fecha-pasada" *ngIf="fechaPasada">
+          <span class="material-icons-round">warning_amber</span>
+          No puedes agendar una cita en una fecha u hora que ya pasó.
+        </div>
+
+        <!-- Veterinario -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">stethoscope</span>
+            Veterinario *
+          </label>
+          <div class="select-wrapper">
+            <select formControlName="veterinario"
+                    [class.invalid]="isInvalid('veterinario')">
+              <option value="" disabled>Seleccione</option>
+              <option value="Dr. García">Dr. García</option>
+              <option value="Dra. López">Dra. López</option>
+              <option value="Dr. Mendez">Dr. Mendez</option>
+              <option value="Dra. Torres">Dra. Torres</option>
+              <option value="Estilista: Sofía">Estilista: Sofía</option>
+            </select>
+            <span class="material-icons-round select-icon">expand_more</span>
+          </div>
+          <span class="error-hint" *ngIf="isInvalid('veterinario')">
+            <span class="material-icons-round">error_outline</span> Requerido
+          </span>
+        </div>
+
+        <!-- Consultorio -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">door_front</span>
+            Consultorio
+          </label>
+          <div class="select-wrapper">
+            <select formControlName="consultorio">
+              <option value="">Sin asignar</option>
+              <option value="Consultorio A">Consultorio A</option>
+              <option value="Consultorio B">Consultorio B</option>
+              <option value="Quirófano A">Quirófano A</option>
+              <option value="Grooming 2">Grooming 2</option>
+            </select>
+            <span class="material-icons-round select-icon">expand_more</span>
+          </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="field-group">
+          <label>
+            <span class="material-icons-round field-icon">flag</span>
+            Estado
+          </label>
+          <div class="select-wrapper">
+            <select formControlName="estado">
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada">Confirmada</option>
+            </select>
+            <span class="material-icons-round select-icon">expand_more</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botones dinámicos — guardar deshabilitado si fecha pasada -->
+      <div class="modal-actions">
+        <button type="submit" class="btn-guardar"
+                [disabled]="guardando || fechaPasada">
+          <span class="material-icons-round">
+            {{ modoEdicion ? 'save' : 'add_circle' }}
+          </span>
+          {{ modoEdicion ? 'Guardar Cambios' : 'Guardar Cita' }}
+        </button>
+        <button type="button" class="btn-cancelar" (click)="cerrarModal()">
+          <span class="material-icons-round">close</span>
+          Cancelar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

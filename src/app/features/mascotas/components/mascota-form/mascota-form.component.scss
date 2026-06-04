@@ -1,0 +1,196 @@
+// src/app/features/mascotas/components/mascota-form/mascota-form.component.scss
+
+.registro-wrapper {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// ── Encabezado ────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .header-icon {
+    width: 52px;
+    height: 52px;
+    background: #C8193C;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 2px;
+  }
+
+  p { font-size: 0.85rem; color: #6b7280; }
+}
+
+// ── Card ──────────────────────────────────────────
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: -0.3rem 0;
+  }
+}
+
+// ── Grid ──────────────────────────────────────────
+.form-grid {
+  display: grid;
+  gap: 1rem;
+
+  &.two-col { grid-template-columns: 1fr 1fr; }
+}
+
+// ── Campos ────────────────────────────────────────
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: #6b7280;
+    text-transform: uppercase;
+  }
+
+  input, select {
+    padding: 11px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #1a1a2e;
+    outline: none;
+    background: #fff;
+    width: 100%;
+    transition: border 0.2s;
+
+    &::placeholder { color: #9ca3af; }
+    &:focus        { border-color: #C8193C; }
+    &.invalid      { border-color: #ef4444; }
+  }
+
+  .error-hint {
+    font-size: 0.75rem;
+    color: #ef4444;
+  }
+}
+
+// ── Select ────────────────────────────────────────
+.select-wrapper {
+  position: relative;
+
+  select {
+    appearance: none;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    pointer-events: none;
+  }
+}
+
+// ── Toggle género ─────────────────────────────────
+.genero-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+
+  .genero-btn {
+    padding: 11px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover  { border-color: #C8193C; color: #C8193C; }
+    &.active { background: #C8193C; border-color: #C8193C; color: #fff; }
+  }
+}
+
+// ── Botones de acción ─────────────────────────────
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  .btn-guardar {
+    background: #C8193C;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover:not(:disabled) { background: #9E1230; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+
+  .btn-cancelar {
+    background: #fff;
+    color: #1a1a2e;
+    border: 1.5px solid #e5e7eb;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: #f5f6fa; }
+  }
+}
+
+// ── Responsive ────────────────────────────────────
+@media (max-width: 600px) {
+  .form-grid.two-col    { grid-template-columns: 1fr; }
+  .action-row           { grid-template-columns: 1fr; }
+  .genero-toggle        { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,84 @@
+// src/app/app.component.scss
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f9;
+}
+
+// ── Navbar ──────────────────────────────────────
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  padding: 0 2rem;
+  height: 64px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .logo { font-size: 1.8rem; }
+
+    .brand-name {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+
+    a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+      }
+
+      &.active {
+        background: rgba(255,255,255,0.25);
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// ── Main Content ─────────────────────────────────
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+// ── Footer ───────────────────────────────────────
+.footer {
+  background: #1a73e8;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+}

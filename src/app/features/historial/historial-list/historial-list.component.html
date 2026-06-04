@@ -1,0 +1,89 @@
+<!-- src/app/features/historial/historial-list/historial-list.component.html -->
+
+<div class="historial-list">
+
+  <!-- Header -->
+  <div class="list-header">
+    <div class="list-title">
+      <span class="material-icons-round">history</span>
+      <h2>Historial Clínico</h2>
+    </div>
+    <a routerLink="/historial/nueva" class="btn-nueva">
+      <span class="material-icons-round">add</span>
+      Nueva Consulta
+    </a>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="cargando">
+    <span class="material-icons-round spin">autorenew</span>
+    Cargando historial...
+  </div>
+
+  <!-- Tabla -->
+  <div class="table-wrapper" *ngIf="!cargando">
+
+    <table *ngIf="consultas.length > 0">
+      <thead>
+        <tr>
+          <th>Mascota</th>
+          <th>Fecha</th>
+          <th>Motivo</th>
+          <th>Diagnóstico</th>
+          <th>Veterinario</th>
+          <th>Peso (kg)</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of consultas">
+          <td>
+            <span class="material-icons-round pet-icon">pets</span>
+            {{ c.nombreMascota || 'ID: ' + c.mascotaId }}
+          </td>
+          <td>{{ c.fecha | date:'dd/MM/yyyy' }}</td>
+          <td>{{ c.motivo }}</td>
+          <td>{{ c.diagnostico }}</td>
+          <td>{{ c.veterinario }}</td>
+          <td>{{ c.peso }}</td>
+          <td class="acciones">
+            <a [routerLink]="['/historial/editar', c.id]" class="btn-edit">
+              <span class="material-icons-round">edit</span>
+            </a>
+            <button class="btn-delete" (click)="confirmarEliminar(c.id!)">
+              <span class="material-icons-round">delete</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Sin resultados -->
+    <div class="empty-state" *ngIf="consultas.length === 0">
+      <span class="material-icons-round">folder_open</span>
+      <p>No hay consultas registradas aún.</p>
+      <a routerLink="/historial/nueva" class="btn-nueva">
+        Registrar primera consulta
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Modal confirmar eliminar -->
+  <div class="modal-overlay" *ngIf="consultaAEliminar !== null">
+    <div class="modal">
+      <span class="material-icons-round modal-icon">warning</span>
+      <h3>¿Eliminar consulta?</h3>
+      <p>Esta acción no se puede deshacer.</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="cancelarEliminar()">
+          Cancelar
+        </button>
+        <button class="btn-confirm" (click)="eliminar()">
+          Sí, eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

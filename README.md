@@ -13,21 +13,6 @@ Este proyecto fue generado por [Angular CLI](https://github.com/angular/angular-
 > arquitectura modular por features, servicios reactivos con RxJS y UI construida
 > íntegramente con **Material Icons Round** y **SCSS** personalizado.
 
-## Tabla de Contenidos
-
-- [Descripción General](#-descripción-general)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
-- [Estructura de Carpetas](#-estructura-de-carpetas)
-- [Módulos y Features](#-módulos-y-features)
-- [Modelos de Datos](#-modelos-de-datos)
-- [Servicios](#-servicios)
-- [Componentes Principales](#-componentes-principales)
-- [Validaciones de Formularios](#-validaciones-de-formularios)
-- [Sistema de UI](#-sistema-de-ui)
-- [Convenciones de Código](#-convenciones-de-código)
-- [Instalación y Ejecución](#-instalación-y-ejecución)
-
 ## Descripción General
 
 Es un sistema de gestión para clínicas veterinarias que permite

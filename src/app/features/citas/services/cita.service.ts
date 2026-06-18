@@ -1,12 +1,15 @@
-// src/app/features/citas/services/cita.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Cita } from '../models/cita.model';
+import { StorageService } from '../../../shared/services/storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class CitaService {
 
-  private _citas: Cita[] = [
+  private readonly STORAGE_KEY = 'huellitas_citas';
+
+  // Datos iniciales de ejemplo (solo si localStorage está vacío)
+  private citasIniciales: Cita[] = [
     {
       id: 1, mascotaNombre: 'Max', mascotaRaza: 'Vacuna', mascotaEdad: 2,
       motivo: 'Vacuna', veterinario: 'Dr. Mendez', consultorio: 'Consultorio A',
@@ -39,8 +42,41 @@ export class CitaService {
     }
   ];
 
+  private _citas: Cita[] = [];
   private _subject = new BehaviorSubject<Cita[]>(this._citas);
   citas$ = this._subject.asObservable();
+
+  constructor(private storageService: StorageService) {
+    this._citas = this.cargarDesdeStorage();
+    this._subject.next(this._citas);
+  }
+
+  // ── localStorage ───────────────────────────────────────
+
+  private cargarDesdeStorage(): Cita[] {
+    try {
+      const data = this.storageService.getItem<Cita[]>(this.STORAGE_KEY);
+      // Si no hay nada guardado, usa los datos iniciales y los persiste
+      if (!data || data.length === 0) {
+        this.storageService.setItem(this.STORAGE_KEY, this.citasIniciales);
+        return [...this.citasIniciales];
+      }
+      // Convertir strings de fecha a objetos Date
+      return data.map(c => ({
+        ...c,
+        fecha: new Date(c.fecha)
+      }));
+    } catch (error) {
+      console.error('Error al cargar citas:', error);
+      return [...this.citasIniciales];
+    }
+  }
+
+  private guardarEnStorage(): void {
+    this.storageService.setItem(this.STORAGE_KEY, this._citas);
+  }
+
+  // ── Lectura ────────────────────────────────────────
 
   obtenerTodas(): Cita[] {
     return this._citas;
@@ -54,21 +90,34 @@ export class CitaService {
     );
   }
 
+  // ── Escritura ──────────────────────────────────────
+
   agregar(cita: Cita): void {
     const nueva = { ...cita, id: Date.now() };
     this._citas = [...this._citas, nueva];
     this._subject.next(this._citas);
+    this.guardarEnStorage(); 
   }
 
   actualizar(citaEditada: Cita): void {
-    this._citas = this._citas.map(c =>
-      c.mascotaNombre          === citaEditada.mascotaNombre &&
-      c.fecha.toDateString()   === citaEditada.fecha.toDateString() &&
-      c.hora                   === citaEditada.hora
-        ? { ...citaEditada }
-        : c
-    );
-    this._subject.next(this._citas);
+    
+    const index = this._citas.findIndex(c => c.id === citaEditada.id);
+    
+    if (index !== -1) {
+      this._citas[index] = { ...citaEditada };
+    } else {
+      // Si no existe por ID, intenta el método anterior (compatibilidad)
+      this._citas = this._citas.map(c =>
+        c.mascotaNombre          === citaEditada.mascotaNombre &&
+        c.fecha.toDateString()   === citaEditada.fecha.toDateString() &&
+        c.hora                   === citaEditada.hora
+          ? { ...citaEditada }
+          : c
+      );
+    }
+    
+    this._subject.next([...this._citas]);
+    this.guardarEnStorage(); 
   }
 
   cancelar(id: number): void {
@@ -76,6 +125,7 @@ export class CitaService {
       c.id === id ? { ...c, estado: 'cancelada' } : c
     );
     this._subject.next(this._citas);
+    this.guardarEnStorage(); 
   }
 
-} // ← llave de cierre de la clase
+} 

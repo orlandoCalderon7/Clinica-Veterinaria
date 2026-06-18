@@ -9,28 +9,13 @@ Este proyecto fue generado por [Angular CLI](https://github.com/angular/angular-
 ![Material Icons](https://img.shields.io/badge/Material_Icons-Round-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=for-the-badge)
 
-> Aplicación web de gestión clínica veterinaria desarrollada con **Angular 19**,
+> Aplicación web de gestión clínica veterinaria desarrollada con **Angular 17**,
 > arquitectura modular por features, servicios reactivos con RxJS y UI construida
 > íntegramente con **Material Icons Round** y **SCSS** personalizado.
 
-## Tabla de Contenidos
-
-- [Descripción General](#-descripción-general)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
-- [Estructura de Carpetas](#-estructura-de-carpetas)
-- [Módulos y Features](#-módulos-y-features)
-- [Modelos de Datos](#-modelos-de-datos)
-- [Servicios](#-servicios)
-- [Componentes Principales](#-componentes-principales)
-- [Validaciones de Formularios](#-validaciones-de-formularios)
-- [Sistema de UI](#-sistema-de-ui)
-- [Convenciones de Código](#-convenciones-de-código)
-- [Instalación y Ejecución](#-instalación-y-ejecución)
-
 ## Descripción General
 
-**VetClinic** es un sistema de gestión para clínicas veterinarias que permite
+Es un sistema de gestión para clínicas veterinarias que permite
 administrar pacientes (mascotas), sus dueños, y la agenda de citas médicas.
 
 La aplicación fue diseñada con un enfoque **modular y escalable**, separando
@@ -88,54 +73,6 @@ Ejecuta `ng e2e` para realizar las pruebas de extremo a extremo en la plataforma
 
 Para obtener más ayuda sobre Angular CLI, utilice `ng help` o consulte la página [Descripción general y referencia de comandos de Angular CLI](https://angular.io/cli).
 
-## Estructura de Carpetas
-
-src/
-├── app/
-│   ├── core/
-│   │   └── services/
-│   │       └── ui.service.ts           # Modal global, sidebar, eventos UI
-│   │
-│   ├── features/
-│   │   ├── citas/
-│   │   │   ├── models/
-│   │   │   │   └── cita.model.ts
-│   │   │   ├── services/
-│   │   │   │   └── cita.service.ts
-│   │   │   ├── citas.component.ts
-│   │   │   ├── citas.component.html
-│   │   │   └── citas.component.scss
-│   │   │
-│   │   ├── mascotas/
-│   │   │   ├── models/
-│   │   │   │   └── mascota.model.ts
-│   │   │   ├── services/
-│   │   │   │   └── mascota.service.ts
-│   │   │   ├── registro/
-│   │   │   │   ├── registro.component.ts
-│   │   │   │   ├── registro.component.html
-│   │   │   │   └── registro.component.scss
-│   │   │   └── lista/
-│   │   │       ├── lista.component.ts
-│   │   │       ├── lista.component.html
-│   │   │       └── lista.component.scss
-│   │   │
-│   │   └── duenos/
-│   │       ├── models/
-│   │       │   └── dueno.model.ts
-│   │       └── services/
-│   │           └── dueno.service.ts
-│   │
-│   ├── shared/
-│   │   └── (componentes reutilizables futuros)
-│   │
-│   ├── app.module.ts
-│   ├── app.component.ts
-│   └── app-routing.module.ts
-│
-├── assets/
-└── index.html
-
 
 ## Instalación y Ejecución
 
@@ -148,7 +85,7 @@ Requisitos previos
 npm install -g @angular/cli
 
 **Clonar Repositorio**
-git clone https://github.com/tu-usuario/vetclinic.git
+git clone https://github.com/orlandoCalderon7/Clinica-Veterinaria
 
 Instalar dependencias **npm install**
 
@@ -158,5 +95,7 @@ Ejecucuión de Desarrollo
 
 ## Grupo 3
 
-Desarrollado como sistema de gestión veterinaria con Angular 19, por alumnos del 4to ciclo de Gestioón de Sistemas de Información. Arquitectura, componentes, servicios y UI diseñados de forma incremental con enfoque en escalabilidad y consistencia visual.
+Desarrollado como sistema de gestión veterinaria con Angular 19, por alumnos del 4to ciclo de Gestión de Sistemas de Información - Zegel en Interfases 3.
+
+Con su arquitectura, componentes, servicios y UI diseñados de forma incremental con enfoque en escalabilidad y consistencia visual.
 
